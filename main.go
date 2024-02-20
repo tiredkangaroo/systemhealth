@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 )
@@ -15,6 +16,7 @@ type SystemHealth struct {
 	BatteryCapacity float64 `json:"battery_capacity"`
 	CPUUtilization  float64 `json:"cpu_utilization"`
 	MemoryUsage     string  `json:"memory_usage"`
+	StorageUsage    string  `json:"storage_usage"`
 }
 
 func getCPUTemp() (float64, error) {
@@ -125,6 +127,33 @@ func getMemoryUsage() (string, error) {
 	return fmt.Sprintf("%.2fGB/%.2fGB", usedMemGB, totalMemGB), nil
 }
 
+func getStorageUsage() (string, error) {
+	cmd := exec.Command("df", "-BG") // Run df command to get disk space usage in GB
+	output, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+
+	lines := strings.Split(string(output), "\n")
+	for _, line := range lines {
+		if strings.Contains(line, "/dev/") {
+			fields := strings.Fields(line)
+			if len(fields) >= 3 {
+				usedSpaceGB, err := strconv.ParseFloat(strings.TrimSuffix(fields[2], "G"), 64)
+				if err != nil {
+					return "", err
+				}
+				totalSpaceGB, err := strconv.ParseFloat(strings.TrimSuffix(fields[1], "G"), 64)
+				if err != nil {
+					return "", err
+				}
+				return fmt.Sprintf("%.2fGB/%.2fGB", usedSpaceGB, totalSpaceGB), nil
+			}
+		}
+	}
+	return "", fmt.Errorf("unable to get storage usage")
+}
+
 func main() {
 	cpuTemp, e := getCPUTemp()
 	batteryTemp, er := getBatteryTemp()
@@ -132,6 +161,7 @@ func main() {
 	batteryCapacity, erro := getBatteryCapacity()
 	cpuUtilization, erorr := getCPUUtilization()
 	memoryUsage, erorrd := getMemoryUsage()
+	storageUsage, errordz := getStorageUsage()
 	if e != nil {
 		fmt.Println(e.Error())
 		cpuTemp = -1
@@ -156,6 +186,10 @@ func main() {
 		fmt.Println(erorrd.Error())
 		memoryUsage = "Failed to access memory usage."
 	}
+	if errordz != nil {
+		fmt.Println(errordz.Error())
+		storageUsage = "Failed to access storage usage."
+	}
 	systemHealth := SystemHealth{
 		CPUTemp:         cpuTemp,
 		BatteryTemp:     batteryTemp,
@@ -163,6 +197,7 @@ func main() {
 		BatteryCapacity: batteryCapacity,
 		CPUUtilization:  cpuUtilization,
 		MemoryUsage:     memoryUsage,
+		StorageUsage:    storageUsage,
 	}
 
 	jsonData, err := json.MarshalIndent(systemHealth, "", "    ")
