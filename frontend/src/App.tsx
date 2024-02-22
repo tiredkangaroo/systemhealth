@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 interface SystemHealth {
-  CPUTemp: number;
-  BatteryTemp: number;
-  BatteryStatus: string;
-  BatteryCapacity: number;
-  CPUUtilization: number;
-  MemoryUsage: string;
-  StorageUsage: string;
+  cpu_temp: number;
+  battery_temp: number;
+  battery_status: string;
+  battery_capacity: number;
+  cpu_utilization: number;
+  memory_usage: string;
+  storage_usage: string;
 }
 function App() {
   const [health, setHealth] = useState<SystemHealth | null | undefined>(
@@ -24,6 +24,8 @@ function App() {
       }
       const data = (await res.json()) as SystemHealth;
       setHealth(data);
+      console.log("Set Health Data to");
+      console.log(data);
     }
     fetchData();
   }, []);
@@ -37,25 +39,25 @@ function App() {
     <>
       <div className="cpu component">
         <ul>
-          <li> CPU Temp: {health.CPUTemp} </li>
-          <li> CPU Utilization: {health.CPUUtilization}% </li>
+          <li> CPU Temp: {health.cpu_temp} </li>
+          <li> CPU Utilization: {health.cpu_utilization}% </li>
         </ul>
       </div>
       <div className="battery component">
         <ul>
-          <li> Battery Temp: {health.BatteryTemp} </li>
-          <li> Battery Status: {health.BatteryStatus} </li>
-          <li> Battery Capacity: {health.BatteryCapacity} </li>
+          <li> Battery Temp: {health.battery_temp} </li>
+          <li> Battery Status: {health.battery_status} </li>
+          <li> Battery Percentage: {health.battery_capacity} </li>
         </ul>
       </div>
       <div className="memory component">
         <ul>
-          <li> Memory Utilization: {health.MemoryUsage} </li>
+          <li> Memory Utilization: {health.memory_usage} </li>
         </ul>
       </div>
       <div className="storage component">
         <ul>
-          <li> Storage Utilization: {health.StorageUsage} </li>
+          <li> Storage Utilization: {health.storage_usage} </li>
         </ul>
       </div>
     </>
