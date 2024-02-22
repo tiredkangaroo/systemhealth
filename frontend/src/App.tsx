@@ -26,7 +26,7 @@ function App() {
       setHealth(data);
     }
     fetchData();
-  });
+  }, []);
   if (health === undefined) {
     return <h1> loading </h1>;
   }
