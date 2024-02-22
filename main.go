@@ -212,4 +212,5 @@ func get(w http.ResponseWriter, req *http.Request) {
 func main() {
 	http.HandleFunc("/api/get", get)
 	http.Handle("/", http.FileServer(http.Dir("/home/nikhilkumar/systemhealth/dist")))
+	http.ListenAndServe(":8106", nil)
 }
