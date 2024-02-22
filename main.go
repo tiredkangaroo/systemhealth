@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
@@ -154,7 +155,7 @@ func getStorageUsage() (string, error) {
 	return "", fmt.Errorf("unable to get storage usage")
 }
 
-func main() {
+func get(w http.ResponseWriter, req *http.Request) {
 	cpuTemp, e := getCPUTemp()
 	batteryTemp, er := getBatteryTemp()
 	batteryStatus, err := getBatteryStatus()
@@ -200,11 +201,15 @@ func main() {
 		StorageUsage:    storageUsage,
 	}
 
-	jsonData, err := json.MarshalIndent(systemHealth, "", "    ")
+	jsonData, err := json.Marshal(systemHealth)
 	if err != nil {
 		fmt.Println("Error marshalling JSON:", err)
 		return
 	}
-
-	fmt.Println(string(jsonData))
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+}
+func main() {
+	http.HandleFunc("/api/get", get)
+	http.Handle("/", http.FileServer(http.Dir("/home/nikhilkumar/systemhealth/dist")))
 }
