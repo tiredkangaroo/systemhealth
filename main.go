@@ -31,6 +31,7 @@ func getCPUTemp() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
+	tempCelsius = tempCelsius / 1000.0
 	tempFahrenheit := (tempCelsius * 9.0 / 5.0) + 32.0
 	return tempFahrenheit, nil
 }
@@ -46,6 +47,7 @@ func getBatteryTemp() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
+	tempCelsius = tempCelsius / 10.0
 	tempFahrenheit := (tempCelsius * 9.0 / 5.0) + 32.0
 	return tempFahrenheit, nil
 }

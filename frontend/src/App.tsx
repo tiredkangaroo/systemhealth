@@ -38,24 +38,28 @@ function App() {
   return (
     <>
       <div className="cpu component">
+        <h1> cpu </h1>
         <ul>
           <li> CPU Temp: {health.cpu_temp} </li>
-          <li> CPU Utilization: {health.cpu_utilization}% </li>
+          <li> CPU Utilization: {health.cpu_utilization.toFixed(1)}% </li>
         </ul>
       </div>
       <div className="battery component">
+        <h1> battery </h1>
         <ul>
           <li> Battery Temp: {health.battery_temp} </li>
           <li> Battery Status: {health.battery_status} </li>
-          <li> Battery Percentage: {health.battery_capacity} </li>
+          <li> Battery Percentage: {health.battery_capacity}% </li>
         </ul>
       </div>
       <div className="memory component">
+        <h1> memory </h1>
         <ul>
           <li> Memory Utilization: {health.memory_usage} </li>
         </ul>
       </div>
       <div className="storage component">
+        <h1> storage </h1>
         <ul>
           <li> Storage Utilization: {health.storage_usage} </li>
         </ul>

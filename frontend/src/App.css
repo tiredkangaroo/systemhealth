@@ -44,3 +44,9 @@
   background-color: #1e1e1e;
   color: white;
 }
+ul {
+  list-style-type: none;
+}
+li {
+  margin-bottom: 3.1px;
+}
