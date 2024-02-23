@@ -40,14 +40,14 @@ function App() {
       <div className="cpu component">
         <h1> cpu </h1>
         <ul>
-          <li> CPU Temp: {health.cpu_temp} </li>
+          <li> CPU Temp: {health.cpu_temp}° F </li>
           <li> CPU Utilization: {health.cpu_utilization.toFixed(1)}% </li>
         </ul>
       </div>
       <div className="battery component">
         <h1> battery </h1>
         <ul>
-          <li> Battery Temp: {health.battery_temp} </li>
+          <li> Battery Temp: {health.battery_temp}° F </li>
           <li> Battery Status: {health.battery_status} </li>
           <li> Battery Percentage: {health.battery_capacity}% </li>
         </ul>
