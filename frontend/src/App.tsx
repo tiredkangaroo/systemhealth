@@ -74,11 +74,7 @@ function App() {
         <ul>
           {health.services.map((service) => {
             return (
-              <li
-                className={
-                  service.status === "active" ? "service-good" : "service-bad"
-                }
-              >
+              <li className={`service-${service.status?.replace(" ", "")}`}>
                 {service.name}
               </li>
             );
