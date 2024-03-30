@@ -179,11 +179,15 @@ func getServiceHealth() []ServiceHealth {
 		if status == "active" {
 			fmt.Println(fmt.Sprintf("%s is active", service.Name))
 			service.Status = "active"
+			fmt.Println("1: " + service.Name + ": " + service.Status)
 		} else {
 			fmt.Println(fmt.Sprintf(fmt.Sprintf("%s is %s", service.Name, status)))
 			service.Status = "not active"
+			fmt.Println("1: " + service.Name + ": " + service.Status)
 		}
+		fmt.Println("2: " + service.Name + ": " + service.Status)
 	}
+	fmt.Println(services)
 	return services
 }
 func get(w http.ResponseWriter, _ *http.Request) {
