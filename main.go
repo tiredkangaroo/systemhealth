@@ -167,6 +167,7 @@ func getServiceHealth() []ServiceHealth {
 		cmd := exec.Command("systemctl", "is-active", service.Name)
 		output, err := cmd.CombinedOutput()
 		if err != nil {
+			fmt.Println("failed getting service details for %s: %s", service.Name, err)
 			if exitErr, ok := err.(*exec.ExitError); ok {
 				service.Status = fmt.Sprintf("Unable to retrieve status: %s", exitErr.Stderr)
 			} else {
@@ -174,10 +175,8 @@ func getServiceHealth() []ServiceHealth {
 			}
 			continue
 		}
-
-		status := string(output)
-		fmt.Printf("Status Output for %s: %q\n", service.Name, status) // Print output for debugging
-		if status == "active\n" {
+		status := strings.TrimSpace(string(output))
+		if status == "active" {
 			service.Status = "active"
 		} else {
 			service.Status = "not active"
