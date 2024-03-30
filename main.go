@@ -176,6 +176,7 @@ func getServiceHealth() []ServiceHealth {
 		}
 
 		status := string(output)
+		fmt.Printf("Status Output for %s: %q\n", service.Name, status) // Print output for debugging
 		if status == "active\n" {
 			service.Status = "active"
 		} else {

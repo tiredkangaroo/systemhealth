@@ -3,7 +3,7 @@ import "./App.css";
 
 interface ServiceHealth {
   name: string;
-  status: string | null;
+  Status: string | null;
 }
 interface SystemHealth {
   cpu_temp: number;
@@ -74,7 +74,7 @@ function App() {
         <ul>
           {health.services.map((service) => {
             return (
-              <li className={`service-${service.status?.replace(" ", "")}`}>
+              <li className={`service-${service.Status?.replace(" ", "")}`}>
                 {service.name}
               </li>
             );
