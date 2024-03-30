@@ -162,12 +162,16 @@ func getStorageUsage() (string, error) {
 	return "", fmt.Errorf("unable to get storage usage")
 }
 func getServiceHealth() []ServiceHealth {
-	services := []ServiceHealth{{"checklist.service", "unknown"}, {"golinks.service", "unknown"}}
+	services := [2]ServiceHealth{{"checklist.service", "unknown"}, {"golinks.service", "unknown"}}
 	for _, service := range services {
 		cmd := exec.Command("systemctl", "is-active", service.Name)
 		output, err := cmd.CombinedOutput()
 		if err != nil {
-			service.Status = fmt.Sprintf("Unable to retrieve status: ", err.Error())
+			if exitErr, ok := err.(*exec.ExitError); ok {
+				service.Status = fmt.Sprintf("Unable to retrieve status: %s", exitErr.Stderr)
+			} else {
+				service.Status = fmt.Sprintf("Unable to retrieve status: %s", err.Error())
+			}
 			continue
 		}
 
