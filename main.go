@@ -15,14 +15,14 @@ type ServiceHealth struct {
 	Status string `json: "status"`
 }
 type SystemHealth struct {
-	CPUTemp         float64         `json:"cpu_temp"`
-	BatteryTemp     float64         `json:"battery_temp"`
-	BatteryStatus   string          `json:"battery_status"`
-	BatteryCapacity float64         `json:"battery_capacity"`
-	CPUUtilization  float64         `json:"cpu_utilization"`
-	MemoryUsage     string          `json:"memory_usage"`
-	StorageUsage    string          `json:"storage_usage"`
-	Services        []ServiceHealth `json:"services"`
+	CPUTemp         float64          `json:"cpu_temp"`
+	BatteryTemp     float64          `json:"battery_temp"`
+	BatteryStatus   string           `json:"battery_status"`
+	BatteryCapacity float64          `json:"battery_capacity"`
+	CPUUtilization  float64          `json:"cpu_utilization"`
+	MemoryUsage     string           `json:"memory_usage"`
+	StorageUsage    string           `json:"storage_usage"`
+	Services        []*ServiceHealth `json:"services"`
 }
 
 func getCPUTemp() (float64, error) {
