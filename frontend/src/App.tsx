@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+interface ServiceHealth {
+  name: string;
+  status: string | null;
+}
 interface SystemHealth {
   cpu_temp: number;
   battery_temp: number;
@@ -9,6 +13,7 @@ interface SystemHealth {
   cpu_utilization: number;
   memory_usage: string;
   storage_usage: string;
+  services: Array<ServiceHealth>;
 }
 function App() {
   const [health, setHealth] = useState<SystemHealth | null | undefined>(
@@ -62,6 +67,22 @@ function App() {
         <h1> storage </h1>
         <ul>
           <li> Storage Utilization: {health.storage_usage} </li>
+        </ul>
+      </div>
+      <div className="service component">
+        <h1> service status </h1>
+        <ul>
+          {health.services.map((service) => {
+            return (
+              <li
+                className={
+                  service.status === "active" ? "service-good" : "service-bad"
+                }
+              >
+                {service.name}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>
