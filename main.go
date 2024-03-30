@@ -162,7 +162,7 @@ func getStorageUsage() (string, error) {
 	return "", fmt.Errorf("unable to get storage usage")
 }
 func getServiceHealth() []ServiceHealth {
-	services := []ServiceHealth{{"checklist.service", "unknown"}, {"golinks.service", "unknown"}}
+	services := []ServiceHealth{{"checklist.service", "unknown"}, {"urlshortner.service", "unknown"}}
 	for _, service := range services {
 		cmd := exec.Command("systemctl", "is-active", service.Name)
 		output, err := cmd.CombinedOutput()
@@ -177,8 +177,10 @@ func getServiceHealth() []ServiceHealth {
 		}
 		status := strings.TrimSpace(string(output))
 		if status == "active" {
+			fmt.Println(fmt.Sprintf("%s is active", service.Name))
 			service.Status = "active"
 		} else {
+			fmt.Println(fmt.Sprintf(fmt.Sprintf("%s is %s", service.Name, status)))
 			service.Status = "not active"
 		}
 	}
