@@ -161,13 +161,13 @@ func getStorageUsage() (string, error) {
 	}
 	return "", fmt.Errorf("unable to get storage usage")
 }
-func getServiceHealth() ([]ServiceHealth, error) {
-	services := []ServiceHealth{{"checklist.service", nil}, {"golinks.service", nil}}
+func getServiceHealth() []ServiceHealth {
+	services := []ServiceHealth{{"checklist.service", "unknown"}, {"golinks.service", "unknown"}}
 	for _, service := range services {
 		cmd := exec.Command("systemctl", "is-active", service.Name)
 		output, err := cmd.CombinedOutput()
 		if err != nil {
-			service.Status = fmt.Errorf("Error checking status of %s: %s\n", service, err)
+			service.Status = Fmt.Sprintf("Unable to retrieve status: ", err.Error())
 			continue
 		}
 
@@ -175,10 +175,10 @@ func getServiceHealth() ([]ServiceHealth, error) {
 		if status == "active\n" {
 			service.Status = "active"
 		} else {
-			service.status = "not active"
+			service.Status = "not active"
 		}
 	}
-	return services, nil
+	return services
 }
 func get(w http.ResponseWriter, _ *http.Request) {
 	cpuTemp, e := getCPUTemp()
@@ -188,7 +188,7 @@ func get(w http.ResponseWriter, _ *http.Request) {
 	cpuUtilization, erorr := getCPUUtilization()
 	memoryUsage, erorrd := getMemoryUsage()
 	storageUsage, errordz := getStorageUsage()
-	serviceHealth, errordza := getServiceHealth()
+	serviceHealth := getServiceHealth()
 	if e != nil {
 		fmt.Println(e.Error())
 		cpuTemp = -1
@@ -225,7 +225,7 @@ func get(w http.ResponseWriter, _ *http.Request) {
 		CPUUtilization:  cpuUtilization,
 		MemoryUsage:     memoryUsage,
 		StorageUsage:    storageUsage,
-		Service:         serviceHealth,
+		Services:        serviceHealth,
 	}
 
 	jsonData, err := json.Marshal(systemHealth)
