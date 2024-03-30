@@ -182,7 +182,7 @@ func getServiceHealth() []*ServiceHealth {
 			fmt.Println("1: " + service.Name + ": " + service.Status)
 		} else {
 			fmt.Println(fmt.Sprintf(fmt.Sprintf("%s is %s", service.Name, status)))
-			service.Status = "not active"
+			service.Status = "notactive"
 			fmt.Println("1: " + service.Name + ": " + service.Status)
 		}
 		fmt.Println("2: " + service.Name + ": " + service.Status)

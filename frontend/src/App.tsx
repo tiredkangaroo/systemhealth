@@ -74,9 +74,7 @@ function App() {
         <ul>
           {health.services.map((service) => {
             return (
-              <li className={`service-${service.Status?.replace(" ", "")}`}>
-                {service.name}
-              </li>
+              <li className={`service-${service.Status}`}>{service.name}</li>
             );
           })}
         </ul>
