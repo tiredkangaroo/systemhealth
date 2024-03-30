@@ -15,14 +15,14 @@ type ServiceHealth struct {
 	Status string `json: "status"`
 }
 type SystemHealth struct {
-	CPUTemp         float64       `json:"cpu_temp"`
-	BatteryTemp     float64       `json:"battery_temp"`
-	BatteryStatus   string        `json:"battery_status"`
-	BatteryCapacity float64       `json:"battery_capacity"`
-	CPUUtilization  float64       `json:"cpu_utilization"`
-	MemoryUsage     string        `json:"memory_usage"`
-	StorageUsage    string        `json:"storage_usage"`
-	Services        ServiceHealth `json:"services"`
+	CPUTemp         float64         `json:"cpu_temp"`
+	BatteryTemp     float64         `json:"battery_temp"`
+	BatteryStatus   string          `json:"battery_status"`
+	BatteryCapacity float64         `json:"battery_capacity"`
+	CPUUtilization  float64         `json:"cpu_utilization"`
+	MemoryUsage     string          `json:"memory_usage"`
+	StorageUsage    string          `json:"storage_usage"`
+	Services        []ServiceHealth `json:"services"`
 }
 
 func getCPUTemp() (float64, error) {
@@ -167,7 +167,7 @@ func getServiceHealth() []ServiceHealth {
 		cmd := exec.Command("systemctl", "is-active", service.Name)
 		output, err := cmd.CombinedOutput()
 		if err != nil {
-			service.Status = Fmt.Sprintf("Unable to retrieve status: ", err.Error())
+			service.Status = fmt.Sprintf("Unable to retrieve status: ", err.Error())
 			continue
 		}
 
