@@ -23,7 +23,7 @@ function App() {
     async function fetchData() {
       let res;
       try {
-        res = await fetch("/api/information.json");
+        res = await fetch("/information.json");
       } catch (_) {
         return setHealth(null);
       }
