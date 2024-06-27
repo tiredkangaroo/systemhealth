@@ -247,7 +247,7 @@ func get(w http.ResponseWriter, _ *http.Request) {
 	w.Write(jsonData)
 }
 func main() {
-	http.HandleFunc("/api/get", get)
+	http.HandleFunc("/information.json", get)
 	http.Handle("/", http.FileServer(http.Dir("/home/homeserver/systemhealth/dist")))
 	http.ListenAndServe(":8106", nil)
 }
